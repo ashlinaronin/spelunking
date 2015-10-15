@@ -1,3 +1,11 @@
+db login info
+admin
+bananas
+
+drupal admin user info
+admin
+forgottendreams
+
 
 CONTENTS OF THIS FILE
 ---------------------
