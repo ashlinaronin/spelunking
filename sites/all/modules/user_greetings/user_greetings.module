@@ -1,14 +1,31 @@
 <?php
 
-// Collect all the hooks
+/*
+** Implements hook_user_login().
+** We need to take a first parameter in the hook implementation function
+** in order to get the correct object in as $account.
+** Then, check for particular users and display custom welcome messages for them.
+*/
 function user_greetings_user_login(&$edit, $account) {
   if (in_array('administrator', $account->roles)) {
-    drupal_set_message('hello admin');
-  } elseif (in_array('authenticated user', $account->roles)) {
-    drupal_set_message('hello authenticated');
+    drupal_set_message('hello admin!');
+  }
+  elseif (in_array('authenticated user', $account->roles)) {
+    drupal_set_message('hello authenticated user!');
   }
 }
 
-function user_greetings_user_logout($account) {
-  // drupal_set_message($account);
+
+
+/*
+** Implements hook_user_logout().
+** Display custom goodbye messages for particular users.
+*/
+function user_greetings_user_logout(&$edit, $account) {
+  if (in_array('administrator', $account->roles)) {
+    drupal_set_message('goodbye admin!');
+  }
+  elseif (in_array('authenticated user', $account->roles)) {
+    drupal_set_message('goodbye authenticated user!');
+  }
 }
