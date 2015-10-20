@@ -1,0 +1,5 @@
+name = Dingus
+description = Adds 'dingus' to the end of all usernames.
+package = My First Modules
+core = 7.x
+files[] = dingus.module
