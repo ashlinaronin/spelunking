@@ -1,0 +1,14 @@
+<?php
+
+// Collect all the hooks
+function user_greetings_user_login(&$edit, $account) {
+  if (in_array('administrator', $account->roles)) {
+    drupal_set_message('hello admin');
+  } elseif (in_array('authenticated user', $account->roles)) {
+    drupal_set_message('hello authenticated');
+  }
+}
+
+function user_greetings_user_logout($account) {
+  // drupal_set_message($account);
+}
