@@ -2,7 +2,7 @@
 
 /*
 ** Implements hook_username_alter().
-** Add 'dingus' to all usernames.
+** Add 'dingus' to the end of all usernames.
 */
 function dingus_username_alter(&$name, $account) {
   if (isset($account)) {
