@@ -35,6 +35,19 @@ function queen_attack_form() {
     7 => 7,
   );
 
+  $coordinate_options_alpha = array(
+    0 => "a",
+    1 => "b",
+    2 => "c",
+    3 => "d",
+    4 => "e",
+    5 => "f",
+    6 => "g",
+    7 => "h"
+  );
+
+
+  // Select usage is a bit different than this, see FORM API
   $form['queen_x_coordinate'] = array(
     '#title' => 'Queen x coordinate',
     '#type' => 'select',
@@ -45,7 +58,7 @@ function queen_attack_form() {
   $form['queen_y_coordinate'] = array(
     '#title' => 'Queen y coordinate',
     '#type' => 'select',
-    '#options' => $coordinate_options,
+    '#options' => $coordinate_options_alpha,
     '#description' => t('Set the Queen\'s Y coordinate.'),
   );
 
@@ -59,7 +72,7 @@ function queen_attack_form() {
   $form['piece_y_coordinate'] = array(
     '#title' => 'Piece y coordinate',
     '#type' => 'select',
-    '#options' => $coordinate_options,
+    '#options' => $coordinate_options_alpha,
     '#description' => t('Set the Piece\'s Y coordinate.'),
   );
 
@@ -77,13 +90,29 @@ function queen_attack_form_submit($form, &$form_state) {
   $piece_x = $form_state['values']['piece_x_coordinate'];
   $piece_y = $form_state['values']['piece_y_coordinate'];
 
+  // Calculate difference between two pieces in each plane.
+  // Use absolute value to avoid negative distances.
+  $diff_x = abs($queen_x - $piece_x);
+  $diff_y = abs($queen_y - $piece_y);
 
-  $_SESSION['queen_result'] = null;
+  if (($queen_x == $piece_x) || ($queen_y == $piece_y) || ($diff_x == $diff_y)) {
+    $_SESSION['queen_result'] = true;
+  } else {
+    $_SESSION['queen_result'] = false;
+  }
+
   $form_state['redirect'] = 'queen_attack_success_page';
 }
 
 
 function queen_attack_success() {
-  $output = '<h1>' . $_SESSION['queen_result'] . '</h1>';
+  $output = '<h1>';
+  if ($_SESSION['queen_result']) {
+    $output .= "WINNNNN";
+  } else {
+    $output .= "LOOOOOOOOSE";
+  }
+
+  $output .= '</h1>';
   return "Attacked? $output";
 }
