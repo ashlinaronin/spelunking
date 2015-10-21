@@ -1,0 +1,5 @@
+name = Queen Attack
+description = Take two sets of coordinates representing the positions on a chess board of the queen and the piece that she is trying to take and display whether or not the piece is within reach of the queen, assuming it's her turn.
+package = My First Modules
+core = 7.x
+files[] = queen_attack.module

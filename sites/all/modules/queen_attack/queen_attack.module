@@ -1,0 +1,89 @@
+<?php
+
+function queen_attack_menu() {
+  $items = array();
+  $items['queen_attack'] = array(
+    'title' => 'Queen Attack Entry Form',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('queen_attack_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['queen_attack_success_page'] = array(
+    'title' => 'Queen Attack Results',
+    'page callback' => 'queen_attack_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+
+
+function queen_attack_form() {
+  $coordinate_options = array(
+    0 => 0,
+    1 => 1,
+    2 => 2,
+    3 => 3,
+    4 => 4,
+    5 => 5,
+    6 => 6,
+    7 => 7,
+  );
+
+  $form['queen_x_coordinate'] = array(
+    '#title' => 'Queen x coordinate',
+    '#type' => 'select',
+    '#options' => $coordinate_options,
+    '#description' => t('Set the Queen\'s X coordinate.'),
+  );
+
+  $form['queen_y_coordinate'] = array(
+    '#title' => 'Queen y coordinate',
+    '#type' => 'select',
+    '#options' => $coordinate_options,
+    '#description' => t('Set the Queen\'s Y coordinate.'),
+  );
+
+  $form['piece_x_coordinate'] = array(
+    '#title' => 'Piece x coordinate',
+    '#type' => 'select',
+    '#options' => $coordinate_options,
+    '#description' => t('Set the Piece\'s X coordinate.'),
+  );
+
+  $form['piece_y_coordinate'] = array(
+    '#title' => 'Piece y coordinate',
+    '#type' => 'select',
+    '#options' => $coordinate_options,
+    '#description' => t('Set the Piece\'s Y coordinate.'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Activate this incredibly useful module!',
+  );
+
+  return $form;
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+  $queen_x = $form_state['values']['queen_x_coordinate'];
+  $queen_y = $form_state['values']['queen_y_coordinate'];
+  $piece_x = $form_state['values']['piece_x_coordinate'];
+  $piece_y = $form_state['values']['piece_y_coordinate'];
+
+
+  $_SESSION['queen_result'] = null;
+  $form_state['redirect'] = 'queen_attack_success_page';
+}
+
+
+function queen_attack_success() {
+  $output = '<h1>' . $_SESSION['queen_result'] . '</h1>';
+  return "Attacked? $output";
+}
