@@ -1,0 +1,5 @@
+name = Sum
+description = Displays the sum of two numbers widda form
+package = My First Modules
+core = 7.x
+files[] = sum.module
