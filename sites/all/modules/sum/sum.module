@@ -4,16 +4,16 @@ function sum_menu() {
   $items = array();
   $items['sum'] = array(
     'title' => 'Calculate Sum',
-    'type' => MENU_NORMAL_ITEM,
-    'access callback' => TRUE,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('sum_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
   );
   $items['success'] = array(
     'title' => 'Success',
-    'type' => MENU_CALLBACK,
-    'access callback' => TRUE,
     'page callback' => 'sum_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
@@ -24,12 +24,16 @@ function sum_form() {
     '#title' => 'Left Number',
     '#type' => 'textfield',
     '#description' => t('Please enter your starting number.'),
+    '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'),
+    '#required' => TRUE,
   );
 
   $form['right_number'] = array(
     '#title' => 'Right Number',
     '#type' => 'textfield',
     '#description' => t('Please enter a number to add to the starting number.'),
+    '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'),
+    '#required' => TRUE,
   );
 
   $form['submit'] = array(
@@ -45,6 +49,19 @@ function sum_form() {
 ** $form defines the fields the form should display.
 ** After submission, all user-supplied details are supplied in &$form_state.
 */
+
+function element_validate_range($element) {
+  if ($element['#value'] > 50 || $element['#value'] < -50) {
+    form_error($element, t('Number must be less than 50 or greater than -50.'));
+  }
+}
+
+function element_validate_even($element) {
+  if ($element['#value'] % 2 != 0) {
+    form_error($element, t('Number must be even.'));
+  }
+}
+
 function sum_form_submit($form, &$form_state) {
   $first_number = $form_state['values']['left_number'];
   $second_number = $form_state['values']['right_number'];
