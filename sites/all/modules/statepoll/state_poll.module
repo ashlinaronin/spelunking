@@ -1,0 +1,65 @@
+<?php
+
+function state_poll_menu() {
+  $items = array();
+  $items['state_poll'] = array(
+    'title' => 'State Poll',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('state_poll_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['state_poll_success'] = array(
+    'title' => 'Success',
+    'page callback' => 'state_poll_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function state_poll_form() {
+  $form['ice_cream'] = array(
+    '#title' => 'Favorite Ice Cream',
+    '#type' => 'textfield',
+    '#description' => t('Enter your favorite flavor of ice cream.'),
+    '#required' => TRUE,
+  );
+
+  $form['state'] = array(
+    '#title' => 'Home State',
+    '#type' => 'textfield',
+    '#description' => t('Enter your home state.'),
+    '#element_validate' => array('element_validate_oregon'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit!'
+  );
+  return $form;
+}
+
+function element_validate_oregon($element) {
+  $acceptable_states = ["Oregon", "OR", "or", "oregon", "orygun"];
+  if (!in_array(strtolower($element['#value']), $acceptable_states)) {
+    form_error($element, t('You must be from Oregon.'));
+  }
+}
+
+// We don't actually need to take the state information
+// because we know the user is from Oregon if they made it
+// past the form validation.
+function state_poll_form_submit($form, &$form_state) {
+  $_SESSION['ice_cream'] = $form_state['values']['ice_cream'];
+  // $_SESSION['state'] = $form_state['values']['state'];
+  $form_state['redirect'] = 'state_poll_success';
+}
+
+function state_poll_success() {
+  $icecream = $_SESSION['ice_cream'];
+  return "You are from Oregon and you like $icecream ice cream.";
+}

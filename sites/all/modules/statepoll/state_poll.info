@@ -1,0 +1,5 @@
+name = State Poll
+description = Poll of users' favorite flavor of icecream and their home states.
+core = 7.x
+package = My First Modules
+files[] = state_poll.module
