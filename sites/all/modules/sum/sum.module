@@ -44,11 +44,6 @@ function sum_form() {
   return $form;
 }
 
-/*
-** Implements hook_form_submit().
-** $form defines the fields the form should display.
-** After submission, all user-supplied details are supplied in &$form_state.
-*/
 
 function element_validate_range($element) {
   if ($element['#value'] > 50 || $element['#value'] < -50) {
@@ -62,6 +57,11 @@ function element_validate_even($element) {
   }
 }
 
+/*
+** Implements hook_form_submit().
+** $form defines the fields the form should display.
+** After submission, all user-supplied details are supplied in &$form_state.
+*/
 function sum_form_submit($form, &$form_state) {
   $first_number = $form_state['values']['left_number'];
   $second_number = $form_state['values']['right_number'];

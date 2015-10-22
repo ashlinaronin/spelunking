@@ -1,0 +1,5 @@
+name = Triangle Tracker
+description = Given the length of three sides of a polygon, tell the user what kind of triangle it is.
+package = My First Modules
+core = 7.x
+files[] = triangles.module
